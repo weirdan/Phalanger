@@ -31,6 +31,18 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Extensions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseGAC|AnyCPU'">
+    <OutputPath>bin\ReleaseGAC\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>..\..\Deployment\Release\PhpNetSoap.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>436,1591</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -90,16 +102,17 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config.install.xdt" />
+    <Content Include="web.config.uninstall.xdt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Extension.Soap.nuspec" />
+  </ItemGroup>
   <!-- skip this extension on unix - there's conflict between system.data.dll and system.web.dll -->
   <Import Project="..\..\Build\Common.Build.targets" Condition="'$(OS)' != 'Unix'"/>
   <!-- stubs for unices -->
   <Target Name="Build" Condition="'$(OS)' == 'Unix'" />
   <Target Name="Clean" Condition="'$(OS)' == 'Unix'" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Target Name="Rebuild" Condition="'$(OS)' == 'Unix'" />
 </Project>
